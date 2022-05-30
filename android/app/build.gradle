@@ -1,0 +1,105 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    compileSdkVersion flutter.compileSdkVersion
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.manabietest.todo_app"
+        minSdkVersion flutter.minSdkVersion
+        targetSdkVersion flutter.targetSdkVersion
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    flavorDimensions "app"
+    productFlavors {
+        def PRODUCTION_APP_ID = "com.manabietest.todo_app"
+        def PRODUCTION_VERSION_CODE = 1
+        def PRODUCTION_VERSION_NAME = "1.0"
+
+        def STAGING_APP_ID = "com.manabietest.todo_app.staging"
+        def STAGING_VERSION_CODE = 1
+        def STAGING_VERSION_NAME = "1.0"
+
+        def DEVELOP_APP_ID = "com.manabietest.todo_app.development"
+        def DEVELOP_VERSION_CODE = 1
+        def DEVELOP_VERSION_NAME = "1.0"
+
+        production {
+            dimension "app"
+            applicationId PRODUCTION_APP_ID
+            versionCode PRODUCTION_VERSION_CODE
+            versionName PRODUCTION_VERSION_NAME
+            resValue "string", "app_name", "TODO"
+        }
+        staging {
+            dimension "app"
+            applicationId STAGING_APP_ID
+            versionCode STAGING_VERSION_CODE
+            versionName STAGING_VERSION_NAME
+            resValue "string", "app_name", "TODO STAG"
+        }
+        development {
+            dimension "app"
+            applicationId DEVELOP_APP_ID
+            versionCode DEVELOP_VERSION_CODE
+            versionName DEVELOP_VERSION_NAME
+            resValue "string", "app_name", "TODO DEV"
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
