@@ -18,7 +18,7 @@ class RouteGenerator {
       case '/incomplete':
         return CupertinoPageRoute(builder: (_) => const IncompleteScreen());
       case '/create-task':
-        return CupertinoPageRoute(builder: (_) => const CreateTaskScreen());
+        return CupertinoPageRoute(builder: (_) => const CreateTaskScreen(restorationId: 'create_task',));
       default:
         return _errorRoute();
     }
