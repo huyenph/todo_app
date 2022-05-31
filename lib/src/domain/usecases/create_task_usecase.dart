@@ -6,6 +6,6 @@ class CreateTaskUseCase {
 
   const CreateTaskUseCase(this._createTaskRepository);
 
-  Future<void> createTask(TodoAdapter todoAdapter) =>
-      _createTaskRepository.createTask(todoAdapter);
+  Future<void> createTask(Todo todo) =>
+      _createTaskRepository.createTask(todo);
 }

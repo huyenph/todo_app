@@ -11,7 +11,7 @@ class Todo extends HiveObject {
   @HiveField(1)
   final String description;
   @HiveField(2)
-  final TodoStatus status;
+  final int status;
   @HiveField(3)
   final DateTime startDate;
   @HiveField(4)

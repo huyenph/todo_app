@@ -21,3 +21,12 @@ class OnDateChangedState extends CreateTaskState {
   @override
   List<Object?> get props => [dateTime, isStartDate];
 }
+
+class OnTaskCreatedState extends CreateTaskState {
+  final bool isSuccess;
+
+  const OnTaskCreatedState(this.isSuccess);
+
+  @override
+  List<Object?> get props => [isSuccess];
+}

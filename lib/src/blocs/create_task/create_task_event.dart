@@ -17,3 +17,12 @@ class OnDateChanged extends CreateTaskEvent {
   @override
   List<Object?> get props => [dateTime, isStartDate];
 }
+
+class OnTaskCreated extends CreateTaskEvent {
+  final Todo todo;
+
+  const OnTaskCreated(this.todo);
+
+  @override
+  List<Object?> get props => [todo];
+}

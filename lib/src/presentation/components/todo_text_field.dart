@@ -34,10 +34,13 @@ class TodoTextField extends StatelessWidget {
         hintText: hintText,
         labelText: labelText,
         alignLabelWithHint: true,
-        suffix: const Icon(
-          Icons.cancel,
-          color: Colors.grey,
-          size: 20.0,
+        suffix: GestureDetector(
+          onTap: () => controller.clear(),
+          child: const Icon(
+            Icons.cancel,
+            color: Colors.grey,
+            size: 20.0,
+          ),
         ),
       ),
       validator: (String? value) {

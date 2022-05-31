@@ -18,7 +18,7 @@ class RouteGenerator {
       case '/incomplete':
         return CupertinoPageRoute(builder: (_) => const IncompleteScreen());
       case '/create-task':
-        return CupertinoPageRoute(builder: (_) => const CreateTaskScreen(restorationId: 'create_task',));
+        return CupertinoPageRoute(builder: (_) => const CreateTaskScreen());
       default:
         return _errorRoute();
     }
@@ -27,12 +27,12 @@ class RouteGenerator {
   static Route<Object> _errorRoute() {
     return CupertinoPageRoute(
         builder: (_) => Scaffold(
-          appBar: AppBar(
-            title: const Text('Error'),
-          ),
-          body: const Center(
-            child: Text('Oops!\nSomething went wrong.'),
-          ),
-        ));
+              appBar: AppBar(
+                title: const Text('Error'),
+              ),
+              body: const Center(
+                child: Text('Oops!\nSomething went wrong.'),
+              ),
+            ));
   }
 }

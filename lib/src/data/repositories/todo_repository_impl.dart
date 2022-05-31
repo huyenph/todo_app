@@ -1,22 +1,18 @@
-import 'package:todo_app/src/data/datasources/database_helper.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/domain/repositories/todo_repository.dart';
 
 class TodoRepositoryImpl extends TodoRepository {
-  // final DatabaseHelper _databaseHelper;
-
-  // TodoRepositoryImpl(this._databaseHelper);
-
   @override
-  Future<void> createTask(Todo todo) {
-    // TODO: implement createTask
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<Todo>> getAllTasks() {
-    // TODO: implement getAllTasks
-    throw UnimplementedError();
+  Future<List<Todo>>? getAllTasks() async {
+    try {
+      // await Hive.openBox('todos');
+      var todoBox = Hive.box('todos');
+      print(todoBox.values);
+      return todoBox.values as List<Todo>;
+    } catch (e) {
+      return Future.value(null);
+    }
   }
 
   @override
@@ -30,5 +26,4 @@ class TodoRepositoryImpl extends TodoRepository {
     // TODO: implement getIncompleteTasks
     throw UnimplementedError();
   }
-
 }
