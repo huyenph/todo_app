@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/blocs/create_task/create_task_bloc.dart';
+import 'package:todo_app/src/common/utils.dart';
 import 'package:todo_app/src/core/state/base_state.dart';
 import 'package:todo_app/src/di/injector_setup.dart';
+import 'package:todo_app/src/domain/model/create_task_arguments.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/presentation/components/todo_button.dart';
 import 'package:todo_app/src/presentation/components/todo_text_field.dart';
 
 class CreateTaskScreen extends StatefulWidget {
-  const CreateTaskScreen({Key? key}) : super(key: key);
+  final CreateTaskArguments? arguments;
+
+  const CreateTaskScreen({
+    Key? key,
+    this.arguments,
+  }) : super(key: key);
 
   @override
   State<CreateTaskScreen> createState() => _CreateTaskScreenState();
@@ -21,8 +28,28 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
   final _endDateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
+  CreateTaskArguments? _arguments;
+  Todo? _todo;
   DateTime? _startDate;
   DateTime? _endDate;
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.arguments != null) {
+      _arguments = widget.arguments;
+      _todo = _arguments!.todo;
+      if (_todo != null) {
+        _titleController.text = _todo!.title;
+        _desController.text = _todo!.description;
+        _startDate = _todo!.startDate;
+        _endDate = _todo!.endDate;
+        _startDateController.text = formatDate(_startDate!);
+        _endDateController.text = formatDate(_endDate!);
+      }
+    }
+
+  }
 
   @override
   Widget buildBody() {
@@ -35,18 +62,20 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
               _startDate = state.dateTime;
               if (_endDate != null && _startDate!.isAfter(_endDate!)) {
                 _endDate = _startDate;
-                _endDateController.text =
-                    '${_endDate!.day}/${_endDate!.month}/${_endDate!.year}';
+                _endDateController.text = formatDate(_endDate!);
               }
-              _startDateController.text =
-                  '${_startDate!.day}/${_startDate!.month}/${_startDate!.year}';
+              _startDateController.text = formatDate(_startDate!);
             } else {
               _endDate = state.dateTime;
-              _endDateController.text =
-                  '${_endDate!.day}/${_endDate!.month}/${_endDate!.year}';
+              _endDateController.text = formatDate(_endDate!);
             }
           }
           if (state is OnTaskCreatedState) {
+            if (state.isSuccess) {
+              Navigator.pop(context);
+            }
+          }
+          if (state is OnTaskUpdatedState) {
             if (state.isSuccess) {
               Navigator.pop(context);
             }
@@ -99,7 +128,10 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                     isReadOnly: true,
                   ),
                   const SizedBox(height: 20.0),
-                  TodoButton(onPressed: () => _onHandlePressed(context)),
+                  TodoButton(
+                    onPressed: () => _onHandlePressed(context),
+                    label: _todo == null ? 'Create' : 'Update',
+                  ),
                 ],
               ),
             ),
@@ -110,7 +142,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
   }
 
   @override
-  String get appBarTitle => 'New task';
+  String get appBarTitle => _todo == null ? 'New task' : 'Update task';
 
   @override
   void dispose() {
@@ -145,7 +177,18 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
         startDate: _startDate!,
         endDate: _endDate!,
       );
-      context.read<CreateTaskBloc>().add(OnTaskCreated(todo));
+      if (_todo == null) {
+        context.read<CreateTaskBloc>().add(OnTaskCreated(todo));
+      } else {
+        if (_arguments!.todo != todo) {
+          context.read<CreateTaskBloc>().add(OnTaskUpdated(
+                todo,
+                _arguments!.index,
+              ));
+        } else {
+          Navigator.pop(context);
+        }
+      }
     }
   }
 }

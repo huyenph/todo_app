@@ -14,6 +14,7 @@ class CreateTaskBloc extends Bloc<CreateTaskEvent, CreateTaskState> {
   CreateTaskBloc(this._createTaskUseCase) : super(const InitialState()) {
     on<OnDateChanged>(_onDateChanged);
     on<OnTaskCreated>(_onTaskCreated);
+    on<OnTaskUpdated>(_onTaskUpdated);
   }
 
   @override
@@ -37,6 +38,18 @@ class CreateTaskBloc extends Bloc<CreateTaskEvent, CreateTaskState> {
       emitter(const OnTaskCreatedState(true));
     } catch(e) {
       emitter(const OnTaskCreatedState(false));
+    }
+  }
+
+  void _onTaskUpdated(
+      OnTaskUpdated event,
+      Emitter<CreateTaskState> emitter,
+      ) async {
+    try {
+      await _createTaskUseCase.updateTask(event.todo, event.index);
+      emitter(const OnTaskCreatedState(true));
+    } catch(e) {
+      emitter(const OnTaskUpdatedState(false));
     }
   }
 }

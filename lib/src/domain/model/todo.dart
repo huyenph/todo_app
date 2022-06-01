@@ -36,6 +36,25 @@ class Todo extends HiveObject {
   }
 
   @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Todo &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          description == other.description &&
+          startDate == other.startDate &&
+          endDate == other.endDate &&
+          status == other.status;
+
+  @override
   String toString() =>
       '$title - $description - $status - $startDate - $endDate';
+
+  @override
+  int get hashCode =>
+      title.hashCode ^
+      description.hashCode ^
+      status.hashCode ^
+      startDate.hashCode ^
+      endDate.hashCode;
 }

@@ -23,7 +23,6 @@ class _CompleteScreenState extends BaseState<CompleteScreen> {
         return TodoListView(
           list: completeTodos,
           onChanged: (value) => _onHandleChanged(value),
-          onEdit: () {},
           onDelete: () {},
         );
       },

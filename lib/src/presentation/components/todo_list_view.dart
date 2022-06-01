@@ -5,14 +5,12 @@ import 'package:todo_app/src/presentation/components/todo_item.dart';
 class TodoListView extends StatelessWidget {
   final List<Todo> list;
   final ValueChanged onChanged;
-  final GestureTapCallback onEdit;
   final GestureTapCallback onDelete;
 
   const TodoListView({
     Key? key,
     required this.list,
     required this.onChanged,
-    required this.onEdit,
     required this.onDelete,
   }) : super(key: key);
 
@@ -26,8 +24,8 @@ class TodoListView extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) => TodoItem(
               todo: list[index],
               onChanged: onChanged,
-              onEdit: onEdit,
               onDelete: onDelete,
+              currentIndex: index,
             ),
           )
         : const Center(

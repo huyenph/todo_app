@@ -22,7 +22,6 @@ class _AllScreenState extends BaseState<AllScreen> {
         return TodoListView(
           list: todos,
           onChanged: (value) => _onHandleChanged(value),
-          onEdit: () {},
           onDelete: () {},
         );
       },

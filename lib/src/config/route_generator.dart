@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_app/src/domain/model/create_task_arguments.dart';
+import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/presentation/screens/all_screen.dart';
 import 'package:todo_app/src/presentation/screens/complete_screen.dart';
 import 'package:todo_app/src/presentation/screens/create_task_screen.dart';
@@ -18,7 +20,12 @@ class RouteGenerator {
       case '/incomplete':
         return CupertinoPageRoute(builder: (_) => const IncompleteScreen());
       case '/create-task':
-        return CupertinoPageRoute(builder: (_) => const CreateTaskScreen());
+        return CupertinoPageRoute(
+          builder: (_) => CreateTaskScreen(
+              arguments: settings.arguments != null
+                  ? settings.arguments as CreateTaskArguments
+                  : null),
+        );
       default:
         return _errorRoute();
     }

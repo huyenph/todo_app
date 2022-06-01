@@ -12,4 +12,14 @@ class CreateTaskRepositoryImpl extends CreateTaskRepository {
       return Future.value(null);
     }
   }
+
+  @override
+  Future<void> updateTask(Todo todo, int index) async {
+    try {
+      var todoBox = Boxes.getTodos();
+      todoBox.putAt(index, todo);
+    } catch (e) {
+      return Future.value(null);
+    }
+  }
 }

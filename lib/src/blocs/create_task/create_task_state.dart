@@ -30,3 +30,12 @@ class OnTaskCreatedState extends CreateTaskState {
   @override
   List<Object?> get props => [isSuccess];
 }
+
+class OnTaskUpdatedState extends CreateTaskState {
+  final bool isSuccess;
+
+  const OnTaskUpdatedState(this.isSuccess);
+
+  @override
+  List<Object?> get props => [isSuccess];
+}

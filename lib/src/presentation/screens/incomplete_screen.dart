@@ -23,7 +23,6 @@ class _IncompleteScreenState extends BaseState<IncompleteScreen> {
         return TodoListView(
           list: incompleteTodos,
           onChanged: (value) => _onHandleChanged(value),
-          onEdit: () {},
           onDelete: () {},
         );
       },

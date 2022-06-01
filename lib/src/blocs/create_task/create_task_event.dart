@@ -26,3 +26,13 @@ class OnTaskCreated extends CreateTaskEvent {
   @override
   List<Object?> get props => [todo];
 }
+
+class OnTaskUpdated extends CreateTaskEvent {
+  final Todo todo;
+  final int index;
+
+  const OnTaskUpdated(this.todo, this.index);
+
+  @override
+  List<Object?> get props => [todo, index];
+}
