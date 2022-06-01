@@ -1,9 +1,7 @@
 import 'package:todo_app/src/domain/model/todo.dart';
 
 abstract class TodoRepository {
-  Future<List<Todo>>? getAllTasks();
+  Future<void> createTask(Todo todo);
 
-  Future<List<Todo>> getCompleteTasks();
-
-  Future<List<Todo>> getIncompleteTasks();
+  Future<void> updateTask(Todo todo, int index);
 }

@@ -8,33 +8,38 @@ abstract class TaskState extends Equatable {
   List<Object?> get props => [];
 }
 
+class InitialState extends TaskState {
+  const InitialState();
+}
+
 class OnInProgressState extends TaskState {
   const OnInProgressState();
 }
 
-class OnGetAllTasksState extends TaskState {
-  final List<Todo> todos;
+class OnDateChangedState extends TaskState {
+  final DateTime dateTime;
+  final bool isStartDate;
 
-  const OnGetAllTasksState(this.todos);
+  const OnDateChangedState(this.dateTime, this.isStartDate);
 
   @override
-  List<Object?> get props => [todos];
+  List<Object?> get props => [dateTime, isStartDate];
 }
 
-class OnGetCompleteTasksState extends TaskState {
-  final List<Todo> todos;
+class OnTaskCreatedState extends TaskState {
+  final bool isSuccess;
 
-  const OnGetCompleteTasksState(this.todos);
+  const OnTaskCreatedState(this.isSuccess);
 
   @override
-  List<Object?> get props => [todos];
+  List<Object?> get props => [isSuccess];
 }
 
-class OnGetIncompleteTasksState extends TaskState {
-  final List<Todo> todos;
+class OnTaskUpdatedState extends TaskState {
+  final bool isSuccess;
 
-  const OnGetIncompleteTasksState(this.todos);
+  const OnTaskUpdatedState(this.isSuccess);
 
   @override
-  List<Object?> get props => [todos];
+  List<Object?> get props => [isSuccess];
 }

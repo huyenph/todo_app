@@ -6,10 +6,8 @@ class TodoUseCase {
 
   const TodoUseCase(this._todoRepository);
 
-  Future<List<Todo>>? getAllTasks() => _todoRepository.getAllTasks();
+  Future<void> createTask(Todo todo) => _todoRepository.createTask(todo);
 
-  Future<List<Todo>> getCompleteTasks() => _todoRepository.getCompleteTasks();
-
-  Future<List<Todo>> getIncompleteTasks() =>
-      _todoRepository.getIncompleteTasks();
+  Future<void> updateTask(Todo todo, int index) =>
+      _todoRepository.updateTask(todo, index);
 }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/blocs/main/main_cubit.dart';
+import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/core/state/base_state.dart';
+import 'package:todo_app/src/di/injector_setup.dart';
 import 'package:todo_app/src/presentation/screens/all_screen.dart';
 import 'package:todo_app/src/presentation/screens/complete_screen.dart';
 import 'package:todo_app/src/presentation/screens/incomplete_screen.dart';
@@ -41,9 +43,12 @@ class _MainScreenState extends BaseState<MainScreen> {
   @override
   Widget buildBody() {
     final selectedTab = context.select((MainCubit cubit) => cubit.state.tab);
-    return IndexedStack(
-      index: selectedTab.index,
-      children: screens,
+    return BlocProvider(
+      create: (_) => TaskBloc(injector()),
+      child: IndexedStack(
+        index: selectedTab.index,
+        children: screens,
+      ),
     );
   }
 

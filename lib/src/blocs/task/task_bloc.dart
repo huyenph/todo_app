@@ -13,28 +13,39 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TodoUseCase _todoUseCase;
 
   TaskBloc(this._todoUseCase) : super(const OnInProgressState()) {
-    on<OnGetAllTasks>(_onGetAllTasks);
-    on<OnGetCompleteTasks>(_onGetCompleteTasks);
-    on<OnGetIncompleteTasks>(_onGetIncompleteTasks);
+    on<OnDateChanged>(_onDateChanged);
+    on<OnTaskCreated>(_onTaskCreated);
+    on<OnTaskUpdated>(_onTaskUpdated);
   }
 
-  void _onGetAllTasks(
-    OnGetAllTasks event,
-    Emitter<TaskState> emitter,
-  ) async {
-    List<Todo>? result = await _todoUseCase.getAllTasks();
-    if (result != null) {
-      print(result);
+  void _onDateChanged(
+      OnDateChanged event,
+      Emitter<TaskState> emitter,
+      ) {
+    emitter(OnDateChangedState(event.dateTime, event.isStartDate));
+  }
+
+  void _onTaskCreated(
+      OnTaskCreated event,
+      Emitter<TaskState> emitter,
+      ) async {
+    try {
+      await _todoUseCase.createTask(event.todo);
+      emitter(const OnTaskCreatedState(true));
+    } catch(e) {
+      emitter(const OnTaskCreatedState(false));
     }
   }
 
-  void _onGetCompleteTasks(
-    OnGetCompleteTasks event,
-    Emitter<TaskState> emitter,
-  ) {}
-
-  void _onGetIncompleteTasks(
-    OnGetIncompleteTasks event,
-    Emitter<TaskState> emitter,
-  ) {}
+  void _onTaskUpdated(
+      OnTaskUpdated event,
+      Emitter<TaskState> emitter,
+      ) async {
+    try {
+      await _todoUseCase.updateTask(event.todo, event.index);
+      emitter(const OnTaskCreatedState(true));
+    } catch(e) {
+      emitter(const OnTaskUpdatedState(false));
+    }
+  }
 }

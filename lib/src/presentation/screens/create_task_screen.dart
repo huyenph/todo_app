@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/src/blocs/create_task/create_task_bloc.dart';
+import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/common/utils.dart';
 import 'package:todo_app/src/core/state/base_state.dart';
 import 'package:todo_app/src/di/injector_setup.dart';
@@ -54,8 +54,8 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
   @override
   Widget buildBody() {
     return BlocProvider(
-      create: (_) => CreateTaskBloc(injector()),
-      child: BlocConsumer<CreateTaskBloc, CreateTaskState>(
+      create: (_) => TaskBloc(injector()),
+      child: BlocConsumer<TaskBloc, TaskState>(
         listener: (context, state) {
           if (state is OnDateChangedState) {
             if (state.isStartDate) {
@@ -163,7 +163,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
     );
     if (pickedDate != null && pickedDate != currentDate) {
       context
-          .read<CreateTaskBloc>()
+          .read<TaskBloc>()
           .add(OnDateChanged(pickedDate, isStartDate));
     }
   }
@@ -178,10 +178,10 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
         endDate: _endDate!,
       );
       if (_todo == null) {
-        context.read<CreateTaskBloc>().add(OnTaskCreated(todo));
+        context.read<TaskBloc>().add(OnTaskCreated(todo));
       } else {
         if (_arguments!.todo != todo) {
-          context.read<CreateTaskBloc>().add(OnTaskUpdated(
+          context.read<TaskBloc>().add(OnTaskUpdated(
                 todo,
                 _arguments!.index,
               ));

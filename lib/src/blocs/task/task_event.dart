@@ -8,24 +8,31 @@ abstract class TaskEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class OnGetAllTasks extends TaskEvent {
-  const OnGetAllTasks();
-}
+class OnDateChanged extends TaskEvent {
+  final DateTime dateTime;
+  final bool isStartDate;
 
-class OnGetCompleteTasks extends TaskEvent {
-  final TodoStatus todoStatus;
-
-  const OnGetCompleteTasks(this.todoStatus);
+  const OnDateChanged(this.dateTime, this.isStartDate);
 
   @override
-  List<Object?> get props => [todoStatus];
+  List<Object?> get props => [dateTime, isStartDate];
 }
 
-class OnGetIncompleteTasks extends TaskEvent {
-  final TodoStatus todoStatus;
+class OnTaskCreated extends TaskEvent {
+  final Todo todo;
 
-  const OnGetIncompleteTasks(this.todoStatus);
+  const OnTaskCreated(this.todo);
 
   @override
-  List<Object?> get props => [todoStatus];
+  List<Object?> get props => [todo];
+}
+
+class OnTaskUpdated extends TaskEvent {
+  final Todo todo;
+  final int index;
+
+  const OnTaskUpdated(this.todo, this.index);
+
+  @override
+  List<Object?> get props => [todo, index];
 }
