@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/blocs/main/main_cubit.dart';
@@ -10,7 +11,7 @@ import 'package:todo_app/src/presentation/screens/incomplete_screen.dart';
 
 const bottomItems = [
   {
-    "icon": Icons.all_inbox_outlined,
+    "icon": CupertinoIcons.text_badge_checkmark,
     "tab": MainTab.all,
     "label": "All",
   },
@@ -53,17 +54,23 @@ class _MainScreenState extends BaseState<MainScreen> {
   }
 
   @override
-  String get appBarTitle =>
-      bottomItems[context.select((MainCubit cubit) => cubit.state.tab).index]
-          ['label'] as String;
-
-  @override
-  FloatingActionButton? buildFloatingActionButton() => FloatingActionButton(
-        key: const Key("floatingKey"),
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.pushNamed(context, '/create-task');
-        },
+  PreferredSizeWidget? buildAppBar() => AppBar(
+        title: Text(
+          bottomItems[context
+              .select((MainCubit cubit) => cubit.state.tab)
+              .index]['label'] as String,
+        ),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, '/create-task'),
+            icon: const Icon(CupertinoIcons.search),
+          ),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, '/create-task'),
+            icon: const Icon(CupertinoIcons.add),
+          ),
+        ],
       );
 
   @override
