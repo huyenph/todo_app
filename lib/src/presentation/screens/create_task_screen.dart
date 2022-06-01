@@ -206,7 +206,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
           id: _todo!.id,
           title: _titleController.text,
           description: _desController.text,
-          status: 0,
+          status: _todo!.status,
           startDate: _startDate!,
           endDate: _endDate!,
         );
