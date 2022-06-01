@@ -46,7 +46,7 @@ class TodoItem extends StatelessWidget {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return ToDoConfirmDialog(
-          title: 'Change status for this task',
+          title: 'Change status',
           message: 'Change to ${value ? 'complete' : 'incomplete'}?',
           onPressed: () => mContext.read<TaskBloc>().add(OnTaskUpdateStatus(todo, value)),
         );

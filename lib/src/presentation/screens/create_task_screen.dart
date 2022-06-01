@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/common/utils.dart';
+import 'package:todo_app/src/config/app_theme.dart';
 import 'package:todo_app/src/core/state/base_state.dart';
 import 'package:todo_app/src/di/injector_setup.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
@@ -105,13 +106,16 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
               padding:
                   const EdgeInsets.symmetric(vertical: 20.0, horizontal: 8.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  const Text('Title *'),
                   TodoTextField(
                     controller: _titleController,
                     hintText: 'Your task title',
                     labelText: 'Title *',
                   ),
                   const SizedBox(height: 20.0),
+                  const Text('Description'),
                   TodoTextField(
                     controller: _desController,
                     hintText: 'Your task description',
@@ -120,6 +124,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                     isRequired: false,
                   ),
                   const SizedBox(height: 20.0),
+                  const Text('Start date *'),
                   TodoTextField(
                     onTap: () => _onHandleDate(
                       context,
@@ -132,6 +137,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                     isReadOnly: true,
                   ),
                   const SizedBox(height: 20.0),
+                  const Text('End date *'),
                   TodoTextField(
                     onTap: () => _onHandleDate(
                       context,

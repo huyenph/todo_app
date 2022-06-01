@@ -32,7 +32,6 @@ class TodoTextField extends StatelessWidget {
       decoration: InputDecoration(
         border: const OutlineInputBorder(),
         hintText: hintText,
-        labelText: labelText,
         alignLabelWithHint: true,
         suffix: GestureDetector(
           onTap: () => controller.clear(),

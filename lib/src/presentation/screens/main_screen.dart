@@ -56,16 +56,14 @@ class _MainScreenState extends BaseState<MainScreen> {
   @override
   PreferredSizeWidget? buildAppBar() => AppBar(
         title: Text(
-          bottomItems[context
-              .select((MainCubit cubit) => cubit.state.tab)
-              .index]['label'] as String,
+          '${bottomItems[context.select((MainCubit cubit) => cubit.state.tab).index]['label'] as String} tasks',
         ),
         centerTitle: false,
         actions: [
-          IconButton(
-            onPressed: () => Navigator.pushNamed(context, '/create-task'),
-            icon: const Icon(CupertinoIcons.search),
-          ),
+          // IconButton(
+          //   onPressed: () => Navigator.pushNamed(context, '/create-task'),
+          //   icon: const Icon(CupertinoIcons.search),
+          // ),
           IconButton(
             onPressed: () => Navigator.pushNamed(context, '/create-task'),
             icon: const Icon(CupertinoIcons.add),

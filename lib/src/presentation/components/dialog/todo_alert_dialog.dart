@@ -23,7 +23,11 @@ class ToDoAlertDialog extends StatelessWidget {
         color: isSuccess ? Colors.green : Colors.red,
         size: 100.0,
       ),
-      content: Text(message, style: const TextStyle(fontSize: 30.0)),
+      content: Text(
+        message,
+        style: const TextStyle(fontSize: 20.0),
+        textAlign: TextAlign.center,
+      ),
       actionsAlignment: MainAxisAlignment.center,
       actions: [
         TodoButton(

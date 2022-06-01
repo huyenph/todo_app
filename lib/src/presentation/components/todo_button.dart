@@ -14,20 +14,15 @@ class TodoButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      child: TextButton(
+      child: ElevatedButton(
         onPressed: onPressed,
         child: Text(
           label,
           style: const TextStyle(
-            color: Colors.white,
             fontSize: 18.0,
           ),
         ),
-        style: TextButton.styleFrom(
-          padding: const EdgeInsets.all(16.0),
-          backgroundColor: Colors.blue,
-          primary: Colors.white,
-        ),
+        style: TextButton.styleFrom(padding: const EdgeInsets.all(16.0)),
       ),
     );
   }
