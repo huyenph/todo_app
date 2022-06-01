@@ -24,9 +24,8 @@ class _AllScreenState extends BaseState<AllScreen> {
           builder: (context, box, _) {
             final todos = box.values.toList().cast<Todo>();
             return TodoListView(
+              mContext: context,
               list: todos,
-              onChanged: (value) => _onHandleChanged(value),
-              onDelete: () {},
             );
           },
         );
@@ -36,6 +35,4 @@ class _AllScreenState extends BaseState<AllScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar() => null;
-
-  void _onHandleChanged(bool value) {}
 }

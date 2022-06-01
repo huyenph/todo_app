@@ -4,17 +4,17 @@ import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/common/utils.dart';
 import 'package:todo_app/src/core/state/base_state.dart';
 import 'package:todo_app/src/di/injector_setup.dart';
-import 'package:todo_app/src/domain/model/create_task_arguments.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/presentation/components/todo_button.dart';
 import 'package:todo_app/src/presentation/components/todo_text_field.dart';
+import 'package:uuid/uuid.dart';
 
 class CreateTaskScreen extends StatefulWidget {
-  final CreateTaskArguments? arguments;
+  final Todo? todo;
 
   const CreateTaskScreen({
     Key? key,
-    this.arguments,
+    this.todo,
   }) : super(key: key);
 
   @override
@@ -28,7 +28,6 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
   final _endDateController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  CreateTaskArguments? _arguments;
   Todo? _todo;
   DateTime? _startDate;
   DateTime? _endDate;
@@ -36,19 +35,15 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
   @override
   void initState() {
     super.initState();
-    if(widget.arguments != null) {
-      _arguments = widget.arguments;
-      _todo = _arguments!.todo;
-      if (_todo != null) {
-        _titleController.text = _todo!.title;
-        _desController.text = _todo!.description;
-        _startDate = _todo!.startDate;
-        _endDate = _todo!.endDate;
-        _startDateController.text = formatDate(_startDate!);
-        _endDateController.text = formatDate(_endDate!);
-      }
+    _todo = widget.todo;
+    if (_todo != null) {
+      _titleController.text = _todo!.title;
+      _desController.text = _todo!.description;
+      _startDate = _todo!.startDate;
+      _endDate = _todo!.endDate;
+      _startDateController.text = formatDate(_startDate!);
+      _endDateController.text = formatDate(_endDate!);
     }
-
   }
 
   @override
@@ -71,14 +66,36 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
             }
           }
           if (state is OnTaskCreatedState) {
-            if (state.isSuccess) {
-              Navigator.pop(context);
-            }
+            showAlertDialog(
+              message:
+                  state.isSuccess ? 'Create task success' : 'Create task fail',
+              actionLabel: state.isSuccess ? 'OK' : 'Retry',
+              onPressed: state.isSuccess
+                  ? () {
+                      Navigator.pop(context);
+                    }
+                  : null,
+            );
           }
           if (state is OnTaskUpdatedState) {
-            if (state.isSuccess) {
-              Navigator.pop(context);
-            }
+            showAlertDialog(
+              message:
+                  state.isSuccess ? 'Update task success' : 'Update task fail',
+              actionLabel: state.isSuccess ? 'OK' : 'Retry',
+              onPressed: state.isSuccess
+                  ? () {
+                      Navigator.pop(context);
+                    }
+                  : null,
+            );
+          }
+          if (state is OnTaskErrorState) {
+            showAlertDialog(
+              message: state.message,
+              isSuccess: false,
+              actionLabel: 'Retry',
+              onPressed: null,
+            );
           }
         },
         builder: (context, state) {
@@ -162,29 +179,33 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
       lastDate: DateTime(DateTime.now().year + 1),
     );
     if (pickedDate != null && pickedDate != currentDate) {
-      context
-          .read<TaskBloc>()
-          .add(OnDateChanged(pickedDate, isStartDate));
+      context.read<TaskBloc>().add(OnDateChanged(pickedDate, isStartDate));
     }
   }
 
   void _onHandlePressed(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      Todo todo = Todo(
-        title: _titleController.text,
-        description: _desController.text,
-        status: 0,
-        startDate: _startDate!,
-        endDate: _endDate!,
-      );
       if (_todo == null) {
+        Todo todo = Todo(
+          id: const Uuid().v4(),
+          title: _titleController.text,
+          description: _desController.text,
+          status: 0,
+          startDate: _startDate!,
+          endDate: _endDate!,
+        );
         context.read<TaskBloc>().add(OnTaskCreated(todo));
       } else {
-        if (_arguments!.todo != todo) {
-          context.read<TaskBloc>().add(OnTaskUpdated(
-                todo,
-                _arguments!.index,
-              ));
+        Todo todo = Todo(
+          id: _todo!.id,
+          title: _titleController.text,
+          description: _desController.text,
+          status: 0,
+          startDate: _startDate!,
+          endDate: _endDate!,
+        );
+        if (widget.todo != todo) {
+          context.read<TaskBloc>().add(OnTaskUpdated(todo));
         } else {
           Navigator.pop(context);
         }

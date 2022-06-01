@@ -25,9 +25,8 @@ class _IncompleteScreenState extends BaseState<IncompleteScreen> {
             final todos = box.values.toList().cast<Todo>();
             final incompleteTodos = todos.where((i) => i.status == 0).toList();
             return TodoListView(
+              mContext: context,
               list: incompleteTodos,
-              onChanged: (value) => _onHandleChanged(value),
-              onDelete: () {},
             );
           },
         );
@@ -37,6 +36,4 @@ class _IncompleteScreenState extends BaseState<IncompleteScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar() => null;
-
-  void _onHandleChanged(bool value) {}
 }

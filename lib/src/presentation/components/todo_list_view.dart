@@ -3,15 +3,13 @@ import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/presentation/components/todo_item.dart';
 
 class TodoListView extends StatelessWidget {
+  final BuildContext mContext;
   final List<Todo> list;
-  final ValueChanged onChanged;
-  final GestureTapCallback onDelete;
 
   const TodoListView({
     Key? key,
+    required this.mContext,
     required this.list,
-    required this.onChanged,
-    required this.onDelete,
   }) : super(key: key);
 
   @override
@@ -22,10 +20,8 @@ class TodoListView extends StatelessWidget {
             separatorBuilder: (BuildContext context, int index) =>
                 const Divider(height: 0.1),
             itemBuilder: (BuildContext context, int index) => TodoItem(
+              mContext: mContext,
               todo: list[index],
-              onChanged: onChanged,
-              onDelete: onDelete,
-              currentIndex: index,
             ),
           )
         : const Center(

@@ -2,22 +2,23 @@ import 'package:hive/hive.dart';
 
 part 'todo.g.dart';
 
-enum TodoStatus { complete, incomplete }
-
 @HiveType(typeId: 0)
 class Todo extends HiveObject {
   @HiveField(0)
-  final String title;
+  final String id;
   @HiveField(1)
-  final String description;
+  String title;
   @HiveField(2)
-  final int status;
+  String description;
   @HiveField(3)
-  final DateTime startDate;
+  int status;
   @HiveField(4)
-  final DateTime endDate;
+  DateTime startDate;
+  @HiveField(5)
+  DateTime endDate;
 
   Todo({
+    required this.id,
     required this.title,
     required this.description,
     required this.status,
@@ -27,6 +28,7 @@ class Todo extends HiveObject {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'title': title,
       'description': description,
       'status': status,
@@ -40,6 +42,7 @@ class Todo extends HiveObject {
       identical(this, other) ||
       other is Todo &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           title == other.title &&
           description == other.description &&
           startDate == other.startDate &&
@@ -48,10 +51,11 @@ class Todo extends HiveObject {
 
   @override
   String toString() =>
-      '$title - $description - $status - $startDate - $endDate';
+      '$id - $title - $description - $status - $startDate - $endDate';
 
   @override
   int get hashCode =>
+      id.hashCode ^
       title.hashCode ^
       description.hashCode ^
       status.hashCode ^

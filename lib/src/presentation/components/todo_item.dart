@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/src/domain/model/create_task_arguments.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
+import 'package:todo_app/src/presentation/components/dialog/todo_confirm_dialog.dart';
 
 class TodoItem extends StatelessWidget {
+  final BuildContext mContext;
   final Todo todo;
-  final ValueChanged onChanged;
-  final GestureTapCallback onDelete;
-  final int currentIndex;
 
   const TodoItem({
     Key? key,
+    required this.mContext,
     required this.todo,
-    required this.onChanged,
-    required this.onDelete,
-    required this.currentIndex,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () => Navigator.pushNamed(context, '/create-task',
-          arguments: CreateTaskArguments(todo, currentIndex)),
+      onTap: () =>
+          Navigator.pushNamed(context, '/create-task', arguments: todo),
       title: Text(
         todo.title,
         overflow: TextOverflow.ellipsis,
@@ -32,13 +30,41 @@ class TodoItem extends StatelessWidget {
         maxLines: 2,
       ),
       leading: Checkbox(
-        onChanged: onChanged,
+        onChanged: (value) => _onConfirmChange(value!),
         value: todo.status == 1,
       ),
       trailing: GestureDetector(
-        onTap: onDelete,
+        onTap: _onConfirmDelete,
         child: const Icon(Icons.close),
       ),
+    );
+  }
+
+  void _onConfirmChange(bool value) {
+    showDialog(
+      context: mContext,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return ToDoConfirmDialog(
+          title: 'Change status for this task',
+          message: 'Change to ${value ? 'complete' : 'incomplete'}?',
+          onPressed: () => mContext.read<TaskBloc>().add(OnTaskUpdateStatus(todo, value)),
+        );
+      },
+    );
+  }
+
+  void _onConfirmDelete() {
+    showDialog(
+      context: mContext,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return ToDoConfirmDialog(
+          title: 'Delete this task',
+          message: 'Are you sure?',
+          onPressed: () => mContext.read<TaskBloc>().add(OnTaskDeleted(todo)),
+        );
+      },
     );
   }
 }

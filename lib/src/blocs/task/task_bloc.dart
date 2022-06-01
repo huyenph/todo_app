@@ -16,36 +16,78 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<OnDateChanged>(_onDateChanged);
     on<OnTaskCreated>(_onTaskCreated);
     on<OnTaskUpdated>(_onTaskUpdated);
+    on<OnTaskUpdateStatus>(_onTaskUpdateStatus);
+    on<OnTaskDeleted>(_onTaskDeleted);
   }
 
   void _onDateChanged(
-      OnDateChanged event,
-      Emitter<TaskState> emitter,
-      ) {
+    OnDateChanged event,
+    Emitter<TaskState> emitter,
+  ) {
     emitter(OnDateChangedState(event.dateTime, event.isStartDate));
   }
 
   void _onTaskCreated(
-      OnTaskCreated event,
-      Emitter<TaskState> emitter,
-      ) async {
+    OnTaskCreated event,
+    Emitter<TaskState> emitter,
+  ) async {
     try {
-      await _todoUseCase.createTask(event.todo);
-      emitter(const OnTaskCreatedState(true));
-    } catch(e) {
-      emitter(const OnTaskCreatedState(false));
+      var result = await _todoUseCase.createTask(event.todo);
+      if (result) {
+        emitter(const OnTaskCreatedState(true));
+      } else {
+        emitter(const OnTaskErrorState('Create task failed. Please try again'));
+      }
+    } catch (e) {
+      emitter(const OnTaskErrorState('Create task failed. Please try again'));
     }
   }
 
   void _onTaskUpdated(
-      OnTaskUpdated event,
+    OnTaskUpdated event,
+    Emitter<TaskState> emitter,
+  ) async {
+    try {
+      var result = await _todoUseCase.updateTask(event.todo);
+      if (result) {
+        emitter(const OnTaskUpdatedState(true));
+      } else {
+        emitter(const OnTaskErrorState('Update task failed. Please try again'));
+      }
+    } catch (e) {
+      emitter(const OnTaskErrorState('Update task failed. Please try again'));
+    }
+  }
+
+  void _onTaskUpdateStatus(
+      OnTaskUpdateStatus event,
       Emitter<TaskState> emitter,
       ) async {
     try {
-      await _todoUseCase.updateTask(event.todo, event.index);
-      emitter(const OnTaskCreatedState(true));
-    } catch(e) {
-      emitter(const OnTaskUpdatedState(false));
+      var result = await _todoUseCase.updateTaskStatus(event.todo, event.status);
+      if (result) {
+        emitter(const OnTaskUpdateStatusState(true));
+      } else {
+        emitter(const OnTaskErrorState('Update task status failed. Please try again'));
+      }
+    } catch (e) {
+      emitter(const OnTaskErrorState('Update task status failed. Please try again'));
+    }
+  }
+
+  void _onTaskDeleted(
+      OnTaskDeleted event,
+      Emitter<TaskState> emitter,
+      ) async {
+    try {
+      var result = await _todoUseCase.deleteTask(event.todo);
+      if (result) {
+        emitter(const OnTaskDeletedState(true));
+      } else {
+        emitter(const OnTaskErrorState('Delete task failed. Please try again'));
+      }
+    } catch (e) {
+      emitter(const OnTaskErrorState('Delete task failed. Please try again'));
     }
   }
 }

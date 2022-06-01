@@ -29,10 +29,30 @@ class OnTaskCreated extends TaskEvent {
 
 class OnTaskUpdated extends TaskEvent {
   final Todo todo;
-  final int index;
 
-  const OnTaskUpdated(this.todo, this.index);
+  const OnTaskUpdated(this.todo);
 
   @override
-  List<Object?> get props => [todo, index];
+  List<Object?> get props => [todo];
 }
+
+class OnTaskUpdateStatus extends TaskEvent {
+  final Todo todo;
+  final bool status;
+
+  const OnTaskUpdateStatus(this.todo, this.status);
+
+  @override
+  List<Object?> get props => [todo, status];
+}
+
+class OnTaskDeleted extends TaskEvent {
+  final Todo todo;
+
+  const OnTaskDeleted(this.todo);
+
+  @override
+  List<Object?> get props => [todo];
+}
+
+

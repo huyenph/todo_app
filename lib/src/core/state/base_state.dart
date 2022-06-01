@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:todo_app/src/core/state/base_state_listener.dart';
+import 'package:todo_app/src/presentation/components/dialog/todo_alert_dialog.dart';
 
 abstract class BaseState<T extends StatefulWidget> extends State<T>
     implements BaseStateListener {
@@ -64,4 +65,24 @@ abstract class BaseState<T extends StatefulWidget> extends State<T>
   FloatingActionButton? buildFloatingActionButton() => null;
 
   Widget buildBody();
+
+  void showAlertDialog({
+    String message = '',
+    String actionLabel = 'OK',
+    bool isSuccess = true,
+    VoidCallback? onPressed,
+  }) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return ToDoAlertDialog(
+          message: message,
+          actionLabel: actionLabel,
+          isSuccess: isSuccess,
+          onPressed: onPressed,
+        );
+      },
+    );
+  }
 }

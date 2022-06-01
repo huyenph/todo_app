@@ -6,8 +6,12 @@ class TodoUseCase {
 
   const TodoUseCase(this._todoRepository);
 
-  Future<void> createTask(Todo todo) => _todoRepository.createTask(todo);
+  Future<bool> createTask(Todo todo) => _todoRepository.createTask(todo);
 
-  Future<void> updateTask(Todo todo, int index) =>
-      _todoRepository.updateTask(todo, index);
+  Future<bool> updateTask(Todo todo) => _todoRepository.updateTask(todo);
+
+  Future<bool> updateTaskStatus(Todo todo, bool value) =>
+      _todoRepository.updateTaskStatus(todo, value);
+
+  Future<bool> deleteTask(Todo todo) => _todoRepository.deleteTask(todo);
 }

@@ -25,9 +25,8 @@ class _CompleteScreenState extends BaseState<CompleteScreen> {
             final todos = box.values.toList().cast<Todo>();
             final completeTodos = todos.where((i) => i.status == 1).toList();
             return TodoListView(
+              mContext: context,
               list: completeTodos,
-              onChanged: (value) => _onHandleChanged(value),
-              onDelete: () {},
             );
           },
         );
@@ -37,6 +36,4 @@ class _CompleteScreenState extends BaseState<CompleteScreen> {
 
   @override
   PreferredSizeWidget? buildAppBar() => null;
-
-  void _onHandleChanged(bool value) {}
 }

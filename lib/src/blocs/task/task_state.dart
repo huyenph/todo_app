@@ -16,6 +16,15 @@ class OnInProgressState extends TaskState {
   const OnInProgressState();
 }
 
+class OnTaskErrorState extends TaskState {
+  final String message;
+
+  const OnTaskErrorState(this.message);
+
+  @override
+  List<Object?> get props => [];
+}
+
 class OnDateChangedState extends TaskState {
   final DateTime dateTime;
   final bool isStartDate;
@@ -32,7 +41,7 @@ class OnTaskCreatedState extends TaskState {
   const OnTaskCreatedState(this.isSuccess);
 
   @override
-  List<Object?> get props => [isSuccess];
+  List<Object?> get props => [];
 }
 
 class OnTaskUpdatedState extends TaskState {
@@ -41,5 +50,23 @@ class OnTaskUpdatedState extends TaskState {
   const OnTaskUpdatedState(this.isSuccess);
 
   @override
-  List<Object?> get props => [isSuccess];
+  List<Object?> get props => [];
+}
+
+class OnTaskUpdateStatusState extends TaskState {
+  final bool isSuccess;
+
+  const OnTaskUpdateStatusState(this.isSuccess);
+
+  @override
+  List<Object?> get props => [];
+}
+
+class OnTaskDeletedState extends TaskState {
+  final bool isSuccess;
+
+  const OnTaskDeletedState(this.isSuccess);
+
+  @override
+  List<Object?> get props => [];
 }
