@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/blocs/task/task_bloc.dart';
@@ -35,7 +36,7 @@ class TodoItem extends StatelessWidget {
       ),
       trailing: GestureDetector(
         onTap: _onConfirmDelete,
-        child: const Icon(Icons.close),
+        child: const Icon(CupertinoIcons.clear),
       ),
     );
   }
