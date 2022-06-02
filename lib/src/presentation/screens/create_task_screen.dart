@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/common/utils.dart';
-import 'package:todo_app/src/config/app_theme.dart';
 import 'package:todo_app/src/core/state/base_state.dart';
 import 'package:todo_app/src/di/injector_setup.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
@@ -66,33 +65,16 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
               _endDateController.text = formatDate(_endDate!);
             }
           }
-          if (state is OnTaskCreatedState) {
+          if (state.isCreateSuccess! || state.isUpdateSuccess!) {
             showAlertDialog(
-              message:
-                  state.isSuccess ? 'Create task success' : 'Create task fail',
-              actionLabel: state.isSuccess ? 'OK' : 'Retry',
-              onPressed: state.isSuccess
-                  ? () {
-                      Navigator.pop(context);
-                    }
-                  : null,
+              message: state.message!,
+              actionLabel: 'Ok',
+              onPressed: () => Navigator.pop(context),
             );
           }
-          if (state is OnTaskUpdatedState) {
+          if (!state.isCreateSuccess! && !state.isUpdateSuccess!) {
             showAlertDialog(
-              message:
-                  state.isSuccess ? 'Update task success' : 'Update task fail',
-              actionLabel: state.isSuccess ? 'OK' : 'Retry',
-              onPressed: state.isSuccess
-                  ? () {
-                      Navigator.pop(context);
-                    }
-                  : null,
-            );
-          }
-          if (state is OnTaskErrorState) {
-            showAlertDialog(
-              message: state.message,
+              message: state.message!,
               isSuccess: false,
               actionLabel: 'Retry',
               onPressed: null,

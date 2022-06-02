@@ -12,7 +12,7 @@ part 'task_state.dart';
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TodoUseCase _todoUseCase;
 
-  TaskBloc(this._todoUseCase) : super(const OnInProgressState()) {
+  TaskBloc(this._todoUseCase) : super(const TaskState()) {
     on<OnDateChanged>(_onDateChanged);
     on<OnTaskCreated>(_onTaskCreated);
     on<OnTaskUpdated>(_onTaskUpdated);
@@ -34,12 +34,21 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       var result = await _todoUseCase.createTask(event.todo);
       if (result) {
-        emitter(const OnTaskCreatedState(true));
+        emitter(state.copyWith(
+          isCreateSuccess: true,
+          message: 'Create task success!',
+        ));
       } else {
-        emitter(const OnTaskErrorState('Create task failed. Please try again'));
+        emitter(state.copyWith(
+          isCreateSuccess: false,
+          message: 'Create task failed. Please try again',
+        ));
       }
     } catch (e) {
-      emitter(const OnTaskErrorState('Create task failed. Please try again'));
+      emitter(state.copyWith(
+        isCreateSuccess: false,
+        message: 'Create task failed. Please try again',
+      ));
     }
   }
 
@@ -50,44 +59,66 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     try {
       var result = await _todoUseCase.updateTask(event.todo);
       if (result) {
-        emitter(const OnTaskUpdatedState(true));
+        emitter(state.copyWith(
+          isCreateSuccess: true,
+          message: 'Update task success!',
+        ));
       } else {
-        emitter(const OnTaskErrorState('Update task failed. Please try again'));
+        emitter(state.copyWith(
+          isUpdateSuccess: false,
+          message: 'Update task failed. Please try again',
+        ));
       }
     } catch (e) {
-      emitter(const OnTaskErrorState('Update task failed. Please try again'));
+      emitter(state.copyWith(
+        isUpdateSuccess: false,
+        message: 'Update task failed. Please try again',
+      ));
     }
   }
 
   void _onTaskUpdateStatus(
-      OnTaskUpdateStatus event,
-      Emitter<TaskState> emitter,
-      ) async {
+    OnTaskUpdateStatus event,
+    Emitter<TaskState> emitter,
+  ) async {
     try {
-      var result = await _todoUseCase.updateTaskStatus(event.todo, event.status);
+      var result =
+          await _todoUseCase.updateTaskStatus(event.todo, event.status);
       if (result) {
-        emitter(const OnTaskUpdateStatusState(true));
+        emitter(state.copyWith(isUpdateStatusSuccess: false));
       } else {
-        emitter(const OnTaskErrorState('Update task status failed. Please try again'));
+        emitter(state.copyWith(
+          isCreateSuccess: false,
+          message: 'Update task status failed. Please try again',
+        ));
       }
     } catch (e) {
-      emitter(const OnTaskErrorState('Update task status failed. Please try again'));
+      emitter(state.copyWith(
+        isCreateSuccess: false,
+        message: 'Update task status failed. Please try again',
+      ));
     }
   }
 
   void _onTaskDeleted(
-      OnTaskDeleted event,
-      Emitter<TaskState> emitter,
-      ) async {
+    OnTaskDeleted event,
+    Emitter<TaskState> emitter,
+  ) async {
     try {
       var result = await _todoUseCase.deleteTask(event.todo);
       if (result) {
-        emitter(const OnTaskDeletedState(true));
+        emitter(state.copyWith(isDeleteSuccess: true));
       } else {
-        emitter(const OnTaskErrorState('Delete task failed. Please try again'));
+        emitter(state.copyWith(
+          isDeleteSuccess: false,
+          message: 'Delete task failed. Please try again',
+        ));
       }
     } catch (e) {
-      emitter(const OnTaskErrorState('Delete task failed. Please try again'));
+      emitter(state.copyWith(
+        isDeleteSuccess: false,
+        message: 'Delete task failed. Please try again',
+      ));
     }
   }
 }
