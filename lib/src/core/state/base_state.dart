@@ -1,18 +1,15 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:todo_app/src/core/state/base_state_listener.dart';
 import 'package:todo_app/src/presentation/components/dialog/todo_alert_dialog.dart';
 
-abstract class BaseState<T extends StatefulWidget> extends State<T>
-    implements BaseStateListener {
+abstract class BaseState<T extends StatefulWidget> extends State<T> {
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final FocusNode _focusNode = FocusNode();
 
   String appBarTitle = '';
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +33,6 @@ abstract class BaseState<T extends StatefulWidget> extends State<T>
       ),
     );
   }
-
-  @override
-  BuildContext get viewContext => throw UnimplementedError();
-
-  @override
-  void onLoading() {}
-
-  @override
-  void onDismiss() {}
-
-  @override
-  void onError(Exception e) {}
 
   void showLoading() {}
 
