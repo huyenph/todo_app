@@ -115,5 +115,49 @@ void main() async {
         },
       );
     });
+
+    group('OnTaskUpdateStatue', () {
+      blocTest<TaskBloc, TaskState>(
+        'Update task status',
+        setUp: () {
+          when(() => todoUseCase.updateTaskStatus(any(), any()))
+              .thenAnswer((_) => Future.value(true));
+        },
+        build: createBloc,
+        act: (bloc) => bloc.add(OnTaskUpdateStatus(testTodo, true)),
+        expect: () => [
+          const TaskState(isUpdateStatusSuccess: true),
+        ],
+        verify: (bloc) {
+          verify(
+            () => todoUseCase.updateTaskStatus(
+              any(
+                that: isA<Todo>()
+                    .having((t) => t.id, 'id', equals('id'))
+                    .having((t) => t.title, 'title', equals('title'))
+                    .having((t) => t.description, 'description',
+                        equals('description'))
+                    .having((t) => t.status, 'status', equals(0))
+                    .having(
+                      (t) => t.startDate,
+                      'startDate',
+                      equals(
+                        DateTime.fromMillisecondsSinceEpoch(1654174800000),
+                      ),
+                    )
+                    .having(
+                      (t) => t.endDate,
+                      'endDate',
+                      equals(
+                        DateTime.fromMillisecondsSinceEpoch(1654174800000),
+                      ),
+                    ),
+              ),
+              any(),
+            ),
+          );
+        },
+      );
+    });
   });
 }

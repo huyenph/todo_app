@@ -65,6 +65,7 @@ class _MainScreenState extends BaseState<MainScreen> {
           //   icon: const Icon(CupertinoIcons.search),
           // ),
           IconButton(
+            key: const Key('addButton'),
             onPressed: () => Navigator.pushNamed(context, '/create-task'),
             icon: const Icon(CupertinoIcons.add),
           ),

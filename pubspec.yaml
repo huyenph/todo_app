@@ -45,6 +45,8 @@ dependencies:
 
 dev_dependencies:
   bloc_test: ^9.0.3
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
   mockingjay: ^0.3.0

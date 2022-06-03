@@ -92,6 +92,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                 children: [
                   const Text('Title *'),
                   TodoTextField(
+                    key: const Key('titleField'),
                     controller: _titleController,
                     hintText: 'Your task title',
                     labelText: 'Title *',
@@ -99,6 +100,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                   const SizedBox(height: 20.0),
                   const Text('Description'),
                   TodoTextField(
+                    key: const Key('desField'),
                     controller: _desController,
                     hintText: 'Your task description',
                     labelText: 'Description',
@@ -108,6 +110,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                   const SizedBox(height: 20.0),
                   const Text('Start date *'),
                   TodoTextField(
+                    key: const Key('startDateField'),
                     onTap: () => _onHandleDate(
                       context,
                       startDate: null,
@@ -121,6 +124,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                   const SizedBox(height: 20.0),
                   const Text('End date *'),
                   TodoTextField(
+                    key: const Key('endDateField'),
                     onTap: () => _onHandleDate(
                       context,
                       startDate: _startDate,
@@ -134,6 +138,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
                   ),
                   const SizedBox(height: 20.0),
                   TodoButton(
+                    key: const Key('confirmButton'),
                     onPressed: () => _onHandlePressed(context),
                     label: _todo == null ? 'Create' : 'Update',
                   ),

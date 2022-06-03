@@ -85,7 +85,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       var result =
           await _todoUseCase.updateTaskStatus(event.todo, event.status);
       if (result) {
-        emitter(state.copyWith(isUpdateStatusSuccess: false));
+        emitter(state.copyWith(isUpdateStatusSuccess: true));
       } else {
         emitter(state.copyWith(
           isCreateSuccess: false,

@@ -1,29 +1,64 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility that Flutter provides. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:todo_app/application.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:todo_app/src/config/app_theme.dart';
+import 'package:todo_app/src/config/route_generator.dart';
+import 'package:todo_app/src/di/injector_setup.dart';
+import 'package:todo_app/src/presentation/screens/create_task_screen.dart';
 
-void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const Application());
+class MockTodoTheme extends Mock implements TodoTheme {
+  static ThemeData get light => ThemeData.light();
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+  static ThemeData get dark => ThemeData.dark();
+}
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+void main() async {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  await initializeDependencies();
+
+  Widget createWidgetTest() {
+    return MaterialApp(
+      localizationsDelegates: const [
+        DefaultMaterialLocalizations.delegate,
+        DefaultWidgetsLocalizations.delegate,
+      ],
+      theme: MockTodoTheme.light,
+      darkTheme: MockTodoTheme.dark,
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      onGenerateRoute: RouteGenerator.generateRoute,
+      home: const Scaffold(),
+    );
+  }
+
+  group('App view', () {
+    testWidgets('Application', (tester) async {
+      await tester.pumpWidget(createWidgetTest());
+      expect(find.byType(MaterialApp), findsOneWidget);
+    });
+
+    testWidgets('Material app with correct themes', (tester) async {
+      await tester.pumpWidget(createWidgetTest());
+      expect(find.byType(MaterialApp), findsOneWidget);
+      final materialApp = tester.widget<MaterialApp>(find.byType(MaterialApp));
+      expect(materialApp.theme, equals(MockTodoTheme.light));
+      expect(materialApp.darkTheme, equals(MockTodoTheme.dark));
+    });
+  });
+
+  group('Task screen', () {
+    testWidgets('Input field', (tester) async {
+      final titleField = find.byKey(const ValueKey('titleField'));
+      final confirmButton = find.byKey(const ValueKey('confirmButton'));
+
+      await tester.pumpWidget(const MaterialApp(home: CreateTaskScreen()));
+      await tester.enterText(titleField, 'title');
+      await tester.press(confirmButton);
+      await tester.pump(); //rebuild widget
+
+      expect(find.text('title'), findsOneWidget);
+    });
   });
 }
