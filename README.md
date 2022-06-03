@@ -1,5 +1,3 @@
-# todo_app
-
 # Manabie test TODO App
 
 ## Folder structure
