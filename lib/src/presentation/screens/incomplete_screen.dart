@@ -24,6 +24,8 @@ class _IncompleteScreenState extends BaseState<IncompleteScreen> {
           builder: (context, box, _) {
             final todos = box.values.toList().cast<Todo>();
             final incompleteTodos = todos.where((i) => i.status == 0).toList();
+            incompleteTodos
+                .sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
             return TodoListView(
               mContext: context,
               list: incompleteTodos,

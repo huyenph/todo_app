@@ -43,6 +43,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           ),
           equals(OnTaskCreated(
@@ -53,6 +54,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           )),
         );
@@ -68,6 +70,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           ).props,
           equals(
@@ -79,6 +82,7 @@ void main() {
                 status: 0,
                 startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
                 endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+                modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
               ),
             ],
           ),
@@ -97,6 +101,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           ),
           equals(OnTaskUpdated(
@@ -107,6 +112,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           )),
         );
@@ -122,6 +128,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           ).props,
           equals(
@@ -133,6 +140,7 @@ void main() {
                 status: 0,
                 startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
                 endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+                modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
               ),
             ],
           ),
@@ -151,6 +159,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
             true,
           ),
@@ -162,6 +171,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
             true,
           )),
@@ -178,6 +188,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
             false,
           ).props,
@@ -190,6 +201,7 @@ void main() {
                 status: 0,
                 startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
                 endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+                modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
               ),
               false,
             ],
@@ -209,6 +221,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           ),
           equals(OnTaskDeleted(
@@ -219,6 +232,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           )),
         );
@@ -234,6 +248,7 @@ void main() {
               status: 0,
               startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
               endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+              modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
             ),
           ).props,
           equals(
@@ -245,6 +260,7 @@ void main() {
                 status: 0,
                 startDate: DateTime.fromMillisecondsSinceEpoch(1654174800000),
                 endDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
+                modifyDate: DateTime.fromMillisecondsSinceEpoch(1654261200000),
               ),
             ],
           ),

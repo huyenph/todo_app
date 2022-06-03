@@ -16,6 +16,8 @@ class Todo extends HiveObject {
   DateTime startDate;
   @HiveField(5)
   DateTime endDate;
+  @HiveField(6)
+  DateTime modifyDate;
 
   Todo({
     required this.id,
@@ -24,6 +26,7 @@ class Todo extends HiveObject {
     required this.status,
     required this.startDate,
     required this.endDate,
+    required this.modifyDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,6 +37,7 @@ class Todo extends HiveObject {
       'status': status,
       'startDate': startDate,
       'endDate': endDate,
+      'modifyDate': modifyDate,
     };
   }
 
@@ -47,11 +51,12 @@ class Todo extends HiveObject {
           description == other.description &&
           startDate == other.startDate &&
           endDate == other.endDate &&
-          status == other.status;
+          status == other.status &&
+          modifyDate == other.modifyDate;
 
   @override
   String toString() =>
-      '$id - $title - $description - $status - $startDate - $endDate';
+      '$id - $title - $description - $status - $startDate - $endDate - $modifyDate';
 
   @override
   int get hashCode =>
@@ -60,5 +65,6 @@ class Todo extends HiveObject {
       description.hashCode ^
       status.hashCode ^
       startDate.hashCode ^
-      endDate.hashCode;
+      endDate.hashCode ^
+      modifyDate.hashCode;
 }

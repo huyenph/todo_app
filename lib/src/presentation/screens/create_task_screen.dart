@@ -186,6 +186,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
           status: 0,
           startDate: _startDate!,
           endDate: _endDate!,
+          modifyDate: DateTime.now(),
         );
         context.read<TaskBloc>().add(OnTaskCreated(todo));
       } else {
@@ -196,6 +197,7 @@ class _CreateTaskScreenState extends BaseState<CreateTaskScreen> {
           status: _todo!.status,
           startDate: _startDate!,
           endDate: _endDate!,
+          modifyDate: _todo!.modifyDate,
         );
         if (widget.todo != todo) {
           context.read<TaskBloc>().add(OnTaskUpdated(todo));

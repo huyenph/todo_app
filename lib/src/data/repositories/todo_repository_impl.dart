@@ -25,7 +25,8 @@ class TodoRepositoryImpl extends TodoRepository {
           ..description = todo.description
           ..status = todo.status
           ..startDate = todo.startDate
-          ..endDate = todo.endDate;
+          ..endDate = todo.endDate
+          ..modifyDate = DateTime.now();
         t.save();
         return Future.value(true);
       } else {
@@ -42,7 +43,9 @@ class TodoRepositoryImpl extends TodoRepository {
       var todoBox = Boxes.getTodos();
       Todo? t = todoBox.get(todo.id);
       if (t != null) {
-        t.status = value ? 1 : 0;
+        t
+          ..status = value ? 1 : 0
+          ..modifyDate = DateTime.now();
         t.save();
         return Future.value(true);
       } else {

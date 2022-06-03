@@ -23,6 +23,7 @@ class _AllScreenState extends BaseState<AllScreen> {
           valueListenable: Boxes.getTodos().listenable(),
           builder: (context, box, _) {
             final todos = box.values.toList().cast<Todo>();
+            todos.sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
             return TodoListView(
               mContext: context,
               list: todos,
