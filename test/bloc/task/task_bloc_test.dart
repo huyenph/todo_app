@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:bloc_test/bloc_test.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:todo_app/src/blocs/task/task_bloc.dart';
 import 'package:todo_app/src/di/injector_setup.dart';
+import 'package:stream_transform/stream_transform.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/domain/repositories/todo_repository.dart';
 import 'package:todo_app/src/domain/usecases/todo_usecase.dart';
@@ -158,6 +162,22 @@ void main() async {
             ),
           );
         },
+      );
+    });
+
+    group('OnTaskSearched', () {
+      EventTransformer<Event> debounce<Event>(Duration duration) {
+        return (events, mapper) => events.debounce(duration).switchMap(mapper);
+      }
+
+      blocTest<TaskBloc, TaskState>(
+        'Search task',
+        build: createBloc,
+        act: (bloc) => bloc.add(const OnTaskSearched('search')),
+        wait: const Duration(milliseconds: 300),
+        expect: () => [
+          const OnTaskSearchedState('search'),
+        ],
       );
     });
   });
