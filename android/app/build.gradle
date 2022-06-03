@@ -94,6 +94,10 @@ android {
             resValue "string", "app_name", "TODO DEV"
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 flutter {
