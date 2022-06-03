@@ -2,12 +2,19 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_transform/stream_transform.dart';
 import 'package:todo_app/src/domain/model/todo.dart';
 import 'package:todo_app/src/domain/usecases/todo_usecase.dart';
 
 part 'task_event.dart';
 
 part 'task_state.dart';
+
+const _duration = Duration(milliseconds: 300);
+
+EventTransformer<Event> debounce<Event>(Duration duration) {
+  return (events, mapper) => events.debounce(duration).switchMap(mapper);
+}
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TodoUseCase _todoUseCase;
@@ -18,6 +25,10 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<OnTaskUpdated>(_onTaskUpdated);
     on<OnTaskUpdateStatus>(_onTaskUpdateStatus);
     on<OnTaskDeleted>(_onTaskDeleted);
+    on<OnTaskSearched>(
+      (event, emit) => emit(OnTaskSearchedState(event.query)),
+      transformer: debounce(_duration),
+    );
   }
 
   void _onDateChanged(

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -15,14 +16,26 @@ class AllScreen extends StatefulWidget {
 }
 
 class _AllScreenState extends BaseState<AllScreen> {
+  String _query = '';
+
   @override
   Widget buildBody() {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
+        if (state is OnTaskSearchedState) {
+          _query = state.query;
+        }
         return ValueListenableBuilder<Box<Todo>>(
           valueListenable: Boxes.getTodos().listenable(),
           builder: (context, box, _) {
-            final todos = box.values.toList().cast<Todo>();
+            List<Todo> todos = box.values.toList().cast<Todo>();
+            todos = todos
+                .where(
+                  (t) =>
+                      t.title.contains(_query) ||
+                      t.description.contains(_query),
+                )
+                .toList();
             todos.sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
             return TodoListView(
               mContext: context,
@@ -35,5 +48,8 @@ class _AllScreenState extends BaseState<AllScreen> {
   }
 
   @override
-  PreferredSizeWidget? buildAppBar() => null;
+  PreferredSizeWidget? buildAppBar() => buildSearchAppBar(
+        onSearch: (value) =>
+            context.read<TaskBloc>().add(OnTaskSearched(value)),
+      );
 }

@@ -15,19 +15,32 @@ class CompleteScreen extends StatefulWidget {
 }
 
 class _CompleteScreenState extends BaseState<CompleteScreen> {
+  String _query = '';
+
   @override
   Widget buildBody() {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
+        if (state is OnTaskSearchedState) {
+          _query = state.query;
+        }
         return ValueListenableBuilder<Box<Todo>>(
           valueListenable: Boxes.getTodos().listenable(),
           builder: (context, box, _) {
-            final todos = box.values.toList().cast<Todo>();
-            final completeTodos = todos.where((i) => i.status == 1).toList();
-            completeTodos.sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
+            List<Todo> todos = box.values.toList().cast<Todo>();
+            todos = todos
+                .where(
+                  (t) =>
+                      (t.title.contains(_query) ||
+                          t.description.contains(_query)) &&
+                      t.status == 1,
+                )
+                .toList();
+            todos.sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
+
             return TodoListView(
               mContext: context,
-              list: completeTodos,
+              list: todos,
             );
           },
         );
@@ -36,5 +49,8 @@ class _CompleteScreenState extends BaseState<CompleteScreen> {
   }
 
   @override
-  PreferredSizeWidget? buildAppBar() => null;
+  PreferredSizeWidget? buildAppBar() => buildSearchAppBar(
+        onSearch: (value) =>
+            context.read<TaskBloc>().add(OnTaskSearched(value)),
+      );
 }

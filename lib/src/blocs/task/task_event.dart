@@ -55,4 +55,11 @@ class OnTaskDeleted extends TaskEvent {
   List<Object?> get props => [todo];
 }
 
+class OnTaskSearched extends TaskEvent {
+  final String query;
 
+  const OnTaskSearched(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}

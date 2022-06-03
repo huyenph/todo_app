@@ -15,20 +15,32 @@ class IncompleteScreen extends StatefulWidget {
 }
 
 class _IncompleteScreenState extends BaseState<IncompleteScreen> {
+  String _query = '';
+
   @override
   Widget buildBody() {
     return BlocBuilder<TaskBloc, TaskState>(
       builder: (context, state) {
+        if (state is OnTaskSearchedState) {
+          _query = state.query;
+        }
         return ValueListenableBuilder<Box<Todo>>(
           valueListenable: Boxes.getTodos().listenable(),
           builder: (context, box, _) {
-            final todos = box.values.toList().cast<Todo>();
-            final incompleteTodos = todos.where((i) => i.status == 0).toList();
-            incompleteTodos
-                .sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
+            List<Todo> todos = box.values.toList().cast<Todo>();
+            todos = todos
+                .where(
+                  (t) =>
+                      (t.title.contains(_query) ||
+                          t.description.contains(_query)) &&
+                      t.status == 0,
+                )
+                .toList();
+            todos.sort((a, b) => b.modifyDate.compareTo(a.modifyDate));
+
             return TodoListView(
               mContext: context,
-              list: incompleteTodos,
+              list: todos,
             );
           },
         );
@@ -37,5 +49,8 @@ class _IncompleteScreenState extends BaseState<IncompleteScreen> {
   }
 
   @override
-  PreferredSizeWidget? buildAppBar() => null;
+  PreferredSizeWidget? buildAppBar() => buildSearchAppBar(
+        onSearch: (value) =>
+            context.read<TaskBloc>().add(OnTaskSearched(value)),
+      );
 }

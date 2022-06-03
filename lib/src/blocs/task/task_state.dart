@@ -51,3 +51,12 @@ class TaskState extends Equatable {
         message,
       ];
 }
+
+class OnTaskSearchedState extends TaskState {
+  final String query;
+
+  const OnTaskSearchedState(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}
